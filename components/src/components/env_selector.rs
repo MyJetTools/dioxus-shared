@@ -67,7 +67,6 @@ pub fn EnvSelector(envs: Vec<Rc<String>>, on_change: EventHandler<String>) -> El
 
     rsx! {
         div { style: "position: sticky; top: 0; background-color: var(--left-panel-color);",
-            h4 { style: "color:white;text-shadow: 1px 1px 1px #747474;", "MyNoSqlServer" }
             select {
                 class: "form-control",
 
