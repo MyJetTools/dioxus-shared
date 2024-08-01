@@ -1,0 +1,9 @@
+[package]
+name = "dioxus-shared"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dioxus = { version = "0.5" }
+serde_json = "*"
+macros = { path = "../macros" }
