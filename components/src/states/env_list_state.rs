@@ -37,7 +37,7 @@ impl EnvListState {
 
     pub fn set_active_env(&mut self, selected_env: String) {
         if self.items.is_none() {
-            panic!("Should net set active env before evns are loaded");
+            panic!("Should net set active env before envs are loaded");
         }
 
         let index = self

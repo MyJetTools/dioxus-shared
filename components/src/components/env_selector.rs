@@ -75,9 +75,6 @@ pub fn EnvSelector(envs: Vec<Rc<String>>, on_change: EventHandler<String>) -> El
                     let value = e.value();
                     let value_spawn = value.clone();
                     let _ = my_eval.send(value_spawn.into());
-                    if selected_env_value.as_str() == value.as_str() {
-                        return;
-                    }
                     on_change.call(e.value());
                 },
                 {items}
