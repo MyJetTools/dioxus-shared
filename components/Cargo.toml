@@ -1,9 +1,9 @@
 [package]
 name = "dioxus-shared"
-version = "0.1.0"
+version = "0.6.0"
 edition = "2021"
 
 [dependencies]
-dioxus = { version = "0.5", features = ["fullstack"] }
+dioxus = { version = "0.6", features = ["fullstack"] }
 serde_json = "*"
 macros = { path = "../macros" }
