@@ -7,3 +7,6 @@ edition = "2021"
 dioxus = { version = "0.6", features = ["fullstack"] }
 serde_json = "*"
 macros = { path = "../macros" }
+dioxus-utils = { tag = "0.6.0", git = "https://github.com/MyJetTools/dioxus-utils.git", features = [
+    "fullstack",
+] }
