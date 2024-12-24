@@ -16,7 +16,7 @@ impl EnvListState {
     }
 
     pub fn has_envs(&self) -> bool {
-        self.items.is_loading()
+        self.items.has_value_loaded()
     }
     pub fn get_selected_env(&self) -> Option<Rc<String>> {
         self.selected_env.clone()
