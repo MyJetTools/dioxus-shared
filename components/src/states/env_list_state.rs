@@ -1,10 +1,11 @@
 use std::rc::Rc;
 
-use dioxus_utils::DataState;
+use dioxus_utils::{js::WebLocalStorage, DataState};
 
 pub struct EnvListState {
     pub items: DataState<Vec<Rc<String>>>,
     selected_env: Option<Rc<String>>,
+    storage: WebLocalStorage,
 }
 
 impl EnvListState {
@@ -12,6 +13,7 @@ impl EnvListState {
         Self {
             items: DataState::None,
             selected_env: None,
+            storage: dioxus_utils::js::GlobalAppSettings::get_local_storage(),
         }
     }
 
@@ -25,25 +27,22 @@ impl EnvListState {
     pub fn set_items(&mut self, items: Vec<String>) {
         let items: Vec<Rc<String>> = items.into_iter().map(|itm| Rc::new(itm)).collect();
         self.items = DataState::Loaded(items);
+
+        let selected_env = self.storage.get("env").unwrap_or_default();
+        self.update_active_env(selected_env.as_str());
     }
 
     pub fn set_error(&mut self, error: String) {
         self.items = DataState::Error(error);
     }
 
-    pub fn set_active_env(&mut self, selected_env: String) {
-        if self.items.is_none() {
-            panic!("Should net set active env before envs are loaded");
-        }
-
+    fn update_active_env(&mut self, selected_env: &str) {
         if let Some(items) = self.items.try_unwrap_as_loaded() {
             if items.len() == 0 {
                 return;
             }
 
-            let index = items
-                .iter()
-                .position(|itm| itm.as_str() == selected_env.as_str());
+            let index = items.iter().position(|itm| itm.as_str() == selected_env);
 
             match index {
                 Some(index) => {
@@ -53,6 +52,18 @@ impl EnvListState {
                     self.selected_env = items.first().cloned();
                 }
             }
+        }
+    }
+
+    pub fn set_active_env(&mut self, selected_env: &str) {
+        if self.items.is_none() {
+            panic!("Should net set active env before envs are loaded");
+        }
+
+        self.update_active_env(selected_env);
+
+        if let Some(selected_env) = self.selected_env.as_ref() {
+            self.storage.set("env", selected_env);
         }
     }
 }
