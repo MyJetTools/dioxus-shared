@@ -3,7 +3,7 @@ use std::rc::Rc;
 use dioxus_utils::DataState;
 
 pub struct EnvListState {
-    items: DataState<Vec<Rc<String>>>,
+    pub items: DataState<Vec<Rc<String>>>,
     selected_env: Option<Rc<String>>,
 }
 
@@ -13,10 +13,6 @@ impl EnvListState {
             items: DataState::None,
             selected_env: None,
         }
-    }
-
-    pub fn get_items(&self) -> &DataState<Vec<Rc<String>>> {
-        &self.items
     }
 
     pub fn has_envs(&self) -> bool {
