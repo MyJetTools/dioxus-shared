@@ -31,6 +31,10 @@ impl EnvListState {
         self.items = DataState::Loaded(items);
     }
 
+    pub fn set_error(&mut self, error: String) {
+        self.items = DataState::Error(error);
+    }
+
     pub fn set_active_env(&mut self, selected_env: String) {
         if self.items.is_none() {
             panic!("Should net set active env before envs are loaded");
