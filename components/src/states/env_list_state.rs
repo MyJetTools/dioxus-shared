@@ -11,14 +11,14 @@ pub struct EnvListState {
 impl EnvListState {
     pub fn new() -> Self {
         Self {
-            items: DataState::None,
+            items: Default::default(),
             selected_env: None,
             storage: dioxus_utils::js::GlobalAppSettings::get_local_storage(),
         }
     }
 
     pub fn has_envs(&self) -> bool {
-        self.items.has_value_loaded()
+        self.items.try_unwrap_as_loaded().is_some()
     }
     pub fn get_selected_env(&self) -> Option<Rc<String>> {
         self.selected_env.clone()
@@ -26,14 +26,14 @@ impl EnvListState {
 
     pub fn set_items(&mut self, items: Vec<String>) {
         let items: Vec<Rc<String>> = items.into_iter().map(|itm| Rc::new(itm)).collect();
-        self.items = DataState::Loaded(items);
+        self.items.set_value(items);
 
         let selected_env = self.storage.get("env").unwrap_or_default();
         self.update_active_env(selected_env.as_str());
     }
 
     pub fn set_error(&mut self, error: String) {
-        self.items = DataState::Error(error);
+        self.items.set_error(error);
     }
 
     fn update_active_env(&mut self, selected_env: &str) {
